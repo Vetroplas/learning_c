@@ -1,23 +1,31 @@
 #include <stdio.h>
 
-#define SUBOR   "TEST.TXT"
-#define ZNAK    '*'
-
 int vyskyt(FILE *fr, char c);
 
 int main(void)
 {
     FILE *fr;
-    if ((fr = fopen(SUBOR,"r")) == NULL)
+    char meno[100];
+    char hladany_znak;
+    
+    printf("Zdaj meno suboru: ");
+    scanf("%s", &meno);
+    while(getchar() != '\n');   //Vyprazdnenie buferu klavesnice
+
+    if ((fr = fopen(meno,"r")) == NULL)
     {
-        printf("Subor %s sa nedal otvorit\n", SUBOR);
+        printf("Subor %s sa nedal otvorit\n", meno);
         return 1;
     }
 
-    printf(" V subore %s sa nachadza znak %c presne %d-krat\n", SUBOR, ZNAK, vyskyt(fr, ZNAK));
+    printf("Zdaj hladany znak: ");
+    hladany_znak = getchar();
+    //while(getchar() != '\n'); // tu uz vyprazdnenie buferu klavesnice netreba, lebo dalej ziadne znaky necitame a getchar() precita len prvy znak
+
+    printf(" V subore %s sa nachadza znak %c presne %d-krat\n", meno, hladany_znak, vyskyt(fr, hladany_znak));
 
     if (fclose(fr) ==  EOF){
-        printf("Subor %s nebol zatvoreny.\n", SUBOR);
+        printf("Subor %s nebol zatvoreny.\n", meno);
     }
 
     return 0;
